@@ -34,7 +34,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = (
       control={control}
       render={({field}) => (
         <SelectPicker
-          value={Array.isArray(value) && value?.[0]}
+          // value={Array.isArray(value) && value?.[0]}
           loading={loading}
           {...field}
           data={data}
