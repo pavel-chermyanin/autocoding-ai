@@ -1,4 +1,4 @@
-import {GetChartsFilterData} from "@/fsd/entities/filter";
+
 
 export type User = {
   id: number
