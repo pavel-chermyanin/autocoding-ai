@@ -1,11 +1,20 @@
 
-
-.header{
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   margin-block: 16px;
   background: linear-gradient(45deg, rgb(255, 130, 0), rgb(255, 130, 0));
   border-radius: 8px;
 
-  .logo_text{
+  .logo_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .logo_text {
+
     color: white;
     font-weight: 700;
     font-size: 20px;

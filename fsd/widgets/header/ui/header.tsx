@@ -6,8 +6,8 @@ import styles from './header.module.scss'
 
 export const Header = () => {
   return (
-    <HeaderRsuite className={`${styles.header} h-16 flex items-center gap-4`}>
-      <div className={'flex items-center gap-4'}>
+    <HeaderRsuite className={`${styles.header}`}>
+      <div className={styles.logo_wrapper}>
         <Logo/>
         <p className={styles.logo_text}>AUTOCODING AI</p>
       </div>
