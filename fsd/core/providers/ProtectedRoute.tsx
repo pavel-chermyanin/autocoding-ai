@@ -11,26 +11,30 @@ const ProtectedRoute = ({children}: { children: ReactNode }) => {
 
   useLayoutEffect(() => {
     const token = localStorage.getItem(ACCESS_TOKEN); // Получение токена из localStorage
-    if (!token) {
-      setTokenState('')
-      router.replace('/auth'); // Перенаправление на страницу логина, если токен отсутствует
-    } else {
-      setTokenState(token)
-    }
+
+    // раскоментировать когда будет готово авторизация
+    // if (!token) {
+    //   setTokenState('')
+    //   router.replace('/auth'); // Перенаправление на страницу логина, если токен отсутствует
+    // } else {
+    //   setTokenState(token)
+    // }
   }, [router]);
 
   return (
     <>
-      {
-        tokenState
-          ? children
-          : (
-            <div
-              className={'h-screen flex items-center justify-center'}>
-              <Loader size={'md'}/>
-            </div>
-          )
-      }
+      {/*{*/}
+      {/*  tokenState*/}
+      {/*    ? children*/}
+      {/*    : (*/}
+      {/*      <div*/}
+      {/*        className={'h-screen flex items-center justify-center'}>*/}
+      {/*        <Loader size={'md'}/>*/}
+      {/*      </div>*/}
+      {/*    )*/}
+      {/*}   */}
+      {children}
+
     </>
   ); // Если токен есть, отобразить дочерние компоненты
 };

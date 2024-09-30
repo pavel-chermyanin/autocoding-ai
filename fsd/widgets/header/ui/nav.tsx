@@ -11,15 +11,15 @@ import styles from './nav.module.scss'
 export const Navbar: React.FC = () => {
   const pathname = usePathname(); // Получаем текущий путь
   const {push, prefetch} = useRouter();
-  const {data, isSuccess, error} = useUserMeQueries()
-  const {setUser} = useUserActions()
+  // const {data, isSuccess, error} = useUserMeQueries()
+  // const {setUser} = useUserActions()
   const [active, setActive] = useState<string>(pathname); // Инициализация активного элемента
 
-  useEffect(() => {
-    if (isSuccess) {
-      setUser(data)
-    }
-  }, [isSuccess]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setUser(data)
+  //   }
+  // }, [isSuccess]);
 
   // // Предзагрузка маршрутов при загрузке приложения
   // useEffect(() => {
@@ -37,17 +37,17 @@ export const Navbar: React.FC = () => {
     push(eventKey); // Изменение URL
   };
 
-  const message = error ? (
-    <div style={{position: 'absolute', zIndex:1000}}>
-      <Message showIcon type={'error'} closable>
-        <strong>{getErrorMessage(error)}</strong>
-      </Message>
-    </div>
-  ) : null;
+  // const message = error ? (
+  //   <div style={{position: 'absolute', zIndex:1000}}>
+  //     <Message showIcon type={'error'} closable>
+  //       <strong>{getErrorMessage(error)}</strong>
+  //     </Message>
+  //   </div>
+  // ) : null;
 
   return (
     <>
-      {message}
+      {/*{message}*/}
       <Nav className={styles.nav} activeKey={active} onSelect={handleSelect}>
         <Nav.Item className={styles.nav_item} eventKey={Routing.HOME}>Главная</Nav.Item>
       </Nav>
