@@ -29,7 +29,7 @@ export default function RootLayout(
   }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-    <body className={`${roboto.className} px-4 overflow-hidden`}>
+    <body className={`${roboto.className} px-4`}>
     <ProtectedRoute>
       <QueryProvider>
         <Header/>

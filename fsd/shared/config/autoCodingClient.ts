@@ -2,7 +2,7 @@ import axios from "axios";
 import {ACCESS_TOKEN, BASE_URL} from "@/fsd/core/global.constants";
 
 
-const createAxiosLoginInstance = () => {
+const createAxiosAutocodingInstance = () => {
   const instance = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -11,17 +11,17 @@ const createAxiosLoginInstance = () => {
       'Accept-Language': 'ru',
       "ngrok-skip-browser-warning": 'true',
     },
-    withCredentials: true
+    // withCredentials: true
   });
 
   // Добавляем интерсепторы для обработки ошибок
-  instance.interceptors.request.use((config) => {
-    const token = localStorage.getItem(ACCESS_TOKEN)
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  });
+  // instance.interceptors.request.use((config) => {
+  //   const token = localStorage.getItem(ACCESS_TOKEN)
+  //   if (token) {
+  //     config.headers.Authorization = `Bearer ${token}`;
+  //   }
+  //   return config;
+  // });
 
   // Добавляем интерсептор для обработки ошибок ответа
   instance.interceptors.response.use(
@@ -43,4 +43,4 @@ const createAxiosLoginInstance = () => {
   return instance;
 };
 
-export const chartClient = createAxiosLoginInstance();
+export const autoCodingClient = createAxiosAutocodingInstance();

@@ -29,7 +29,7 @@ export const Sidebar = () => {
         <Sidenav.Body>
           <Nav activeKey={active} onSelect={handleSelect}>
             <Nav.Item eventKey={Routing.HOME} icon={<DashboardIcon />}>
-              Автокодировка
+              Бренды
             </Nav.Item>
             <Nav.Item eventKey={Routing.PROCESSES} icon={<GroupIcon />}>
               Процессы
