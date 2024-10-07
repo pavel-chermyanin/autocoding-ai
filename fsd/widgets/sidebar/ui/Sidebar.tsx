@@ -6,6 +6,7 @@ import GroupIcon from '@rsuite/icons/legacy/Group';
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Routing } from "@/fsd/shared/config/routing";
+import styles from './sidebar.module.scss'
 
 export const Sidebar = () => {
   const pathname = usePathname(); // Получаем текущий путь
@@ -25,7 +26,7 @@ export const Sidebar = () => {
 
   return (
     <div style={{ width: 240 }}>
-      <Sidenav defaultOpenKeys={['3', '4']}>
+      <Sidenav defaultOpenKeys={['3', '4']} className={styles.sidenav}>
         <Sidenav.Body>
           <Nav activeKey={active} onSelect={handleSelect}>
             <Nav.Item eventKey={Routing.HOME} icon={<DashboardIcon />}>

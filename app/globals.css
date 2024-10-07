@@ -18,13 +18,19 @@
 }
 
 body {
-  /*color: rgb(var(--foreground-rgb));*/
-  /*background: linear-gradient(*/
-  /*    to bottom,*/
-  /*    transparent,*/
-  /*    rgb(var(--background-end-rgb))*/
-  /*  )*/
-  /*  rgb(var(--background-start-rgb));*/
+  &::-webkit-scrollbar {
+    width: 10px; /* Ширина всего элемента навигации */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #fff; /* Цвет дорожки */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #fde2c6; /* Цвет бегунка */
+    border-radius: 20px; /* Округление бегунка */
+    /*border: 3px solid #050c26; !* Оформление границ бегунка *!*/
+  }
 }
 
 @layer utilities {

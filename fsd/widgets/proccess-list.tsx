@@ -1,7 +1,7 @@
 'use client';
-import { ProgressItem } from '@/fsd/entities/proccess';
 import { List, Panel, Button } from 'rsuite';
 import {DownloadXlsxButton} from "@/fsd/features/download-xlsx-button";
+import {ProgressItem} from "@/fsd/entities/model";
 
 export const ProccessList = () => {
   const data = [

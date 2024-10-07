@@ -2,6 +2,6 @@ import {Button} from "rsuite";
 
 export const EncodeButton = () => {
   return (
-    <Button>Закодировать</Button>
+    <Button appearance={'primary'}>Закодировать</Button>
   )
 }

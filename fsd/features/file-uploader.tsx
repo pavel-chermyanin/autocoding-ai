@@ -1,21 +1,59 @@
-import { Button, Uploader, Notification } from "rsuite";
+import {Button, Message, Uploader} from "rsuite";
+import {BASE_URL, CURRENT_FILE_SESSION} from "@/fsd/core/global.constants";
+import {TablePaths, useTableActions} from "@/fsd/entities/table";
+import {useSessionActions} from "@/fsd/entities/session";
+import {useState} from "react";
+
+type FileUploaderResponse = {
+  file_id: string
+}
 
 export const FileUploader = () => {
-  const handleSuccess = (response: any, file: any) => {
-    // Здесь можно отловить и обработать ответ от сервера
+  const {setIsOpenClearModal} = useTableActions()
+  const {currentSession,setSession} = useSessionActions()
+  const handleSuccess = (response: FileUploaderResponse, file: any) => {
 
-    console.log("Ответ от сервера:", response);
+    setSession(response)
+    sessionStorage.setItem(CURRENT_FILE_SESSION, JSON.stringify(response))
+
   };
 
+  const handleRemove = (file: any) => {
+    setIsOpenClearModal(true)
+    return false;
+  };
+
+  const url = `${BASE_URL}${TablePaths.UPLOAD_EXCEL_FILE}`;
+
   return (
-    <Uploader
-      draggable
-      listType="picture-text"
-      defaultFileList={[]}
-      action="//jsonplaceholder.typicode.com/posts/"
-      onSuccess={handleSuccess}
-    >
-      <Button>Загрузите или перетащите файл...</Button>
-    </Uploader>
+    <div className={''}>
+      <Uploader
+        disabled={!!currentSession?.file_id }
+        draggable
+        listType="picture-text"
+        defaultFileList={[]}
+        action={url}
+        fileListVisible={false}
+        onSuccess={handleSuccess}
+        onRemove={handleRemove}  // Обработчик удаления файла
+
+      >
+        <Button>Загрузите или перетащите файл...</Button>
+
+      </Uploader>
+
+      {currentSession?.file_id &&
+        <Message className={'mt-2'}>
+          <div className={'flex items-center gap-2 justify-between'}>
+            <p>
+              загружена активная сессия
+            </p>
+            <Button appearance="primary" onClick={handleRemove}>Очистить сессию</Button>
+          </div>
+        </Message>
+
+      }
+    </div>
+
   );
 };

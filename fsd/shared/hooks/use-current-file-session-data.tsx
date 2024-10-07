@@ -1,26 +1,20 @@
-import { useState, useEffect } from 'react';
+import {useEffect} from 'react';
+import {CURRENT_FILE_SESSION} from "@/fsd/core/global.constants";
+import {Session, useSessionActions} from "@/fsd/entities/session";
 
 export const useCurrentFileSessionData = () => {
-  const [sessionId, setSessionId] = useState<string | null>(null);
+  const {setSession} = useSessionActions()
 
   useEffect(() => {
     // Получаем данные из sessionStorage
-    const sessionData = sessionStorage.getItem('currentFileSession');
+    const sessionData = sessionStorage.getItem(CURRENT_FILE_SESSION);
 
     if (sessionData) {
-      try {
-        // Парсим данные из строки в объект
-        const parsedData = JSON.parse(sessionData);
-        // Проверяем наличие поля id и устанавливаем его в состояние
-        if (parsedData?.id) {
-          setSessionId(parsedData.id);
-        }
-      } catch (error) {
-        console.error('Ошибка парсинга currentFileSession:', error);
-      }
+      const parsedData: Session = JSON.parse(sessionData);
+      setSession(parsedData);
+
     }
   }, []); // Хук вызывается при маунте компонента
 
-  return sessionId;
 };
 
