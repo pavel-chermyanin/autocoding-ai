@@ -4,12 +4,13 @@ import {CURRENT_FILE_SESSION} from "@/fsd/core/global.constants";
 import {CustomText} from "@/fsd/shared/ui/CustomText";
 import {useSessionActions} from "@/fsd/entities/session";
 import {useQueryClient} from "@tanstack/react-query";
+import {useFormContext} from "react-hook-form";
 
 
 export const ModalClearSession = () => {
   const {isOpenClearModal, setIsOpenClearModal} = useTableActions()
-  const {setSession} = useSessionActions()
-  const {setBrand, setSKU} = useTableActions()
+  const {setSession,currentSession} = useSessionActions()
+  const {reset} =useFormContext()
   const queryClient = useQueryClient(); // Получаем экземпляр queryClient
 
   return (
@@ -24,8 +25,10 @@ export const ModalClearSession = () => {
         <Button
           onClick={() => {
             setSession(null)
-            setSKU(null)
-            setBrand(null)
+            reset({
+              sku: '',
+              brands: ''
+            })
             sessionStorage.removeItem(CURRENT_FILE_SESSION)
             queryClient.invalidateQueries(); // Очищаем кэш всех запросов
             setIsOpenClearModal(false)

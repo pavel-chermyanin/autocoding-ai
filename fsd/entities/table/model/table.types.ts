@@ -11,11 +11,11 @@ export type GetColumnProps = {
 }
 
 export type TableState = {
-  currentSKU:string | null
-  setSKU: (sku: string | null) => void
-
-  currentBrand: string | null
-  setBrand: (brand: string | null) => void
+  // currentSKU:string | null
+  // setSKU: (sku: string | null) => void
+  //
+  // currentBrand: string | null
+  // setBrand: (brand: string | null) => void
 
   isOpenClearModal: boolean
   setIsOpenClearModal: (bool: boolean) => void

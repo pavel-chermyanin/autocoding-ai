@@ -1,5 +1,5 @@
 'use client';
-import React from "react";
+import React, {useEffect} from "react";
 import '../globals.css';
 import {UploadControl} from "@/fsd/widgets/upload-control";
 import {Divider} from "rsuite";
@@ -9,25 +9,32 @@ import {useCurrentFileSessionData} from "@/fsd/shared/hooks/use-current-file-ses
 import {ModalClearSession} from "@/fsd/features/modal-clear-session";
 import {ChangeHeightPreview} from "@/fsd/features/change-height-preview";
 import {SkuForm} from "@/fsd/widgets/sku-form";
-import {useTableActions} from "@/fsd/entities/table";
+import {useProcessProgress} from "@/fsd/features/use-proccess-progress";
+import {SessionStatus} from "@/fsd/widgets/session-status";
+import {useSessionActions} from "@/fsd/entities/session";
 
 
 export default function HomePage() {
+  useProcessProgress()
   useCurrentFileSessionData()
-  const {currentSKU,currentBrand} = useTableActions()
-  const methods = useForm({
-    defaultValues: {
-      sku: currentSKU,
-      brands: currentBrand
+  const {currentSession} = useSessionActions()
+  const methods = useForm()
+
+  useEffect(() => {
+    if(currentSession?.checkedSKU && currentSession?.checkedBrands) {
+      methods.reset({
+        sku:  currentSession.checkedSKU.toString(),
+        brands: currentSession.checkedBrands.toString()
+      })
     }
-  })
 
-
+  }, [currentSession?.checkedSKU,currentSession?.checkedBrands]);
 
   return (
     <div className={'grow mb-10'}>
       <FormProvider {...methods}>
         <div className={'flex flex-col gap-8'}>
+          <SessionStatus/>
           <UploadControl/>
           <Divider/>
           <ChangeHeightPreview/>

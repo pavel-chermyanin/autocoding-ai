@@ -11,8 +11,8 @@ export const useCurrentFileSessionData = () => {
 
     if (sessionData) {
       const parsedData: Session = JSON.parse(sessionData);
+      console.log(parsedData)
       setSession(parsedData);
-
     }
   }, []); // Хук вызывается при маунте компонента
 

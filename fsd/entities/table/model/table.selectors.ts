@@ -4,21 +4,21 @@ import {useTableStore} from "./table.store";
 
 export const useTableActions = () => {
   const {
-    currentSKU,
-    setSKU,
-    currentBrand,
-    setBrand,
+    // currentSKU,
+    // setSKU,
+    // currentBrand,
+    // setBrand,
     isOpenClearModal,
     setIsOpenClearModal,
     heightPreview,
     setHeightPreview
   } = useTableStore(
     (state) => ({
-      currentSKU: state.currentSKU,
-      setSKU: state.setSKU,
-
-      currentBrand: state.currentBrand,
-      setBrand: state.setBrand,
+      // currentSKU: state.currentSKU,
+      // setSKU: state.setSKU,
+      //
+      // currentBrand: state.currentBrand,
+      // setBrand: state.setBrand,
 
       isOpenClearModal: state.isOpenClearModal,
       setIsOpenClearModal: state.setIsOpenClearModal,
@@ -31,10 +31,10 @@ export const useTableActions = () => {
   );
 
   return {
-    currentSKU,
-    setSKU,
-    currentBrand,
-    setBrand,
+    // currentSKU,
+    // setSKU,
+    // currentBrand,
+    // setBrand,
     isOpenClearModal,
     setIsOpenClearModal,
     heightPreview,

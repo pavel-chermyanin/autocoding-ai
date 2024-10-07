@@ -6,6 +6,8 @@ import { SessionState } from "./session.types";
 export const useSessionStore = create<SessionState>()(
   devtools(
     (set) => ({
+
+
       currentSession: null, // состояние по умолчанию
       setSession: (session) => set({ currentSession: session }), // исправлено здесь
     }),

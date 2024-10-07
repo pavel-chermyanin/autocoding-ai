@@ -2,8 +2,10 @@
 import { List, Panel, Button } from 'rsuite';
 import {DownloadXlsxButton} from "@/fsd/features/download-xlsx-button";
 import {ProgressItem} from "@/fsd/entities/model";
+import {useProcessesProgress} from "@/fsd/features/use-proccesses-progress";
 
 export const ProccessList = () => {
+  useProcessesProgress()
   const data = [
     { id: 1, name: 'aaa' },
     { id: 2, name: 'ббб' }

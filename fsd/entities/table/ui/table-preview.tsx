@@ -4,21 +4,24 @@ import {useSessionActions} from "@/fsd/entities/session";
 import {useEffect} from "react";
 import {useGetColumnMutation} from "../api/table.mutations";
 import {useTableActions} from "../model/table.selectors";
+import {useFormContext} from "react-hook-form";
 
 export const TablePreview = ({currentColumn, sheet}: {
-  currentColumn: string | null,
+  currentColumn: number | null,
   sheet: string
 }) => {
   const {currentSession} = useSessionActions()
   const {heightPreview} = useTableActions()
-  const {mutate, data} = useGetColumnMutation()
+  const {mutate, data,status} = useGetColumnMutation()
+  const {getValues} = useFormContext()
 
   useEffect(() => {
-    if (currentSession) {
+    if (currentSession && currentColumn && Object.keys(getValues()).length) {
+      console.log(111)
       mutate({
         sheet,
         fileId: currentSession?.file_id!,
-        columnId: currentColumn!
+        columnId: currentColumn.toString()!
       })
     }
 
