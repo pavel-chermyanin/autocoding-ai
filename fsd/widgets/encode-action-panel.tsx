@@ -5,9 +5,9 @@ import {useSessionActions} from "@/fsd/entities/session";
 
 
 export const EncodeActionPanel = () => {
-  const {currentSession} = useSessionActions()
+  const {costCoding} = useSessionActions()
 
-  if(!currentSession?.costCoding) {
+  if(!costCoding) {
     return null
   }
 
@@ -15,7 +15,7 @@ export const EncodeActionPanel = () => {
     <div>
       <div className={'flex items-center gap-2'} style={{gap:'20px'}}>
         <Message>
-          Стоимость<strong>{currentSession?.costCoding}$</strong>.
+          Стоимость<strong>{costCoding}$</strong>.
         </Message>
         <EncodeButton/>
       </div>

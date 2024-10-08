@@ -4,13 +4,13 @@ import {SessionStatus as SessionStatusEnum, useSessionActions} from "@/fsd/entit
 
 
 export const SessionStatus = () => {
-  const {currentSession,setSession} = useSessionActions()
+  const {sessionStatus} = useSessionActions()
   const {setIsOpenClearModal} = useTableActions()
   const handleRemove = (file: any) => {
     setIsOpenClearModal(true)
     return false;
   };
-  if(!currentSession){
+  if(!sessionStatus){
     return null
   }
 
@@ -29,9 +29,9 @@ export const SessionStatus = () => {
     }
   }
   return (
-    <Message className={'mt-2'} type={currentSession.sessionStatus !== SessionStatusEnum.AUTOCODING_COMPLETED ? 'info': 'success'}>
+    <Message className={'mt-2'} type={sessionStatus !== SessionStatusEnum.AUTOCODING_COMPLETED ? 'info': 'success'}>
       <div className={'flex items-center gap-2 justify-between'}>
-        <p><strong>Статус сессии:</strong> {getStatus(currentSession.sessionStatus)}</p>
+        <p><strong>Статус сессии:</strong> {getStatus(sessionStatus)}</p>
         <Button appearance="primary" onClick={handleRemove}>Очистить сессию</Button>
       </div>
     </Message>

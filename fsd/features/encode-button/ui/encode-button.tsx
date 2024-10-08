@@ -1,28 +1,22 @@
 import {Button} from "rsuite";
 import {useSendToGptMutation} from "@/fsd/entities/model/model.mutations";
-import {SessionStatus, useSessionActions} from "@/fsd/entities/session";
-import {CURRENT_FILE_SESSION} from "@/fsd/core/global.constants";
+import {SessionStatus, SessionStorage, useSessionActions} from "@/fsd/entities/session";
 
 export const EncodeButton = () => {
   const {mutate, isPending, isSuccess, isError} = useSendToGptMutation()
-  const {currentSession,setSession} = useSessionActions()
+  const {fileId,checkedBrands,checkedSKU,sessionStatus,setSessionStatus} = useSessionActions()
 
   if(isSuccess) {
-    const request = {
-      file_id: currentSession?.file_id!,
-      ...currentSession,
-      sessionStatus: SessionStatus.AUTOCODING,
-    }
-    setSession(request)
-    sessionStorage.setItem(CURRENT_FILE_SESSION, JSON.stringify(request))
+    setSessionStatus(SessionStatus.AUTOCODING)
+    sessionStorage.setItem(SessionStorage.SESSION_STATUS,SessionStatus.AUTOCODING)
   }
   return (
     <Button
-      disabled={currentSession?.sessionStatus === SessionStatus.AUTOCODING}
+      disabled={sessionStatus === SessionStatus.AUTOCODING}
       onClick={() => mutate({
-        id: currentSession?.file_id!,
-        column_id_sku: +currentSession?.checkedSKU!,
-        column_id_brands: +currentSession?.checkedBrands!,
+        id: fileId!,
+        column_id_sku: +checkedSKU!,
+        column_id_brands: +checkedBrands!,
       })}
       appearance={'primary'} color={isError ? 'red' : 'blue'}>
       {isError ? 'Завершено с ошибкой' : (isPending || isSuccess) ? 'Отправлено в процесс' : 'Закодировать'}

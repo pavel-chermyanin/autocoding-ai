@@ -17,18 +17,17 @@ import {useSessionActions} from "@/fsd/entities/session";
 export default function HomePage() {
   useProcessProgress()
   useCurrentFileSessionData()
-  const {currentSession} = useSessionActions()
+  const {checkedSKU,checkedBrands} = useSessionActions()
   const methods = useForm()
 
   useEffect(() => {
-    if(currentSession?.checkedSKU && currentSession?.checkedBrands) {
       methods.reset({
-        sku:  currentSession.checkedSKU.toString(),
-        brands: currentSession.checkedBrands.toString()
+        sku:  checkedSKU?.toString(),
+        brands: checkedBrands?.toString()
       })
-    }
 
-  }, [currentSession?.checkedSKU,currentSession?.checkedBrands]);
+
+  }, [checkedBrands,checkedSKU]);
 
   return (
     <div className={'grow mb-10'}>

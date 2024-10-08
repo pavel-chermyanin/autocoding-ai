@@ -1,3 +1,5 @@
+export {SessionStorage} from "./model/session.types";
+
 export {SessionStatus} from "./model/session.types";
 
 export {useSessionActions} from "./model/session.selectors";

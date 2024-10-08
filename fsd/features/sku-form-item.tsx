@@ -1,25 +1,26 @@
 import {CustomSelect} from "@/fsd/shared/ui/customSelect/custom-select";
-import {SessionStatus, useSessionActions} from "@/fsd/entities/session";
+import {SessionStatus, SessionStorage, useSessionActions} from "@/fsd/entities/session";
 
 type SkuFormItemProps = {
   data: [string, string][]
   name: string
   label: string
-  field: string
-  // cb: (item:string) => void
 }
-export const SKUFormItem = ({data,name,label,field}: SkuFormItemProps) => {
-  const {setSession,currentSession} = useSessionActions()
-  const test = data.map(([key,value]) => ({label:value,value:key}));
+export const SKUFormItem = ({data, name, label}: SkuFormItemProps) => {
+  const {checkedSKU, checkedBrands, sessionStatus, setCheckedSKU, setCheckedBrands} = useSessionActions()
+  const test = data.map(([key, value]) => ({label: value, value: key}));
 
   const handleChange = (value: string) => {
-    if (currentSession?.file_id) {
-      setSession({
-        ...currentSession,
-        [field]: value,
-      });
+    if (name === 'sku') {
+      setCheckedSKU(+value || null)
+      value
+        ? sessionStorage.setItem(SessionStorage.CHECKED_SKU, value)
+        : sessionStorage.removeItem(SessionStorage.CHECKED_SKU)
     } else {
-      console.error("file_id is missing");
+      setCheckedBrands(+value || null)
+      value
+        ? sessionStorage.setItem(SessionStorage.CHECHED_BRANDS, value)
+        : sessionStorage.removeItem(SessionStorage.CHECHED_BRANDS)
     }
   };
   return (
@@ -27,7 +28,7 @@ export const SKUFormItem = ({data,name,label,field}: SkuFormItemProps) => {
       <div className={''}>
         <label>{label}</label>
         <CustomSelect
-          disabled={currentSession?.sessionStatus === SessionStatus.AUTOCODING || currentSession?.sessionStatus === SessionStatus.AUTOCODING_COMPLETED}
+          disabled={sessionStatus === SessionStatus.AUTOCODING || sessionStatus === SessionStatus.AUTOCODING_COMPLETED}
           onChangeOutside={handleChange}
           name={name}
           data={test}

@@ -25,7 +25,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = (
     loading = false,
     onChangeOutside,
     value,
-    disabled
+    disabled,
   }
 ) => {
   const {control} = useFormContext();

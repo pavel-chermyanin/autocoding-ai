@@ -10,17 +10,15 @@ export const TablePreview = ({currentColumn, sheet}: {
   currentColumn: number | null,
   sheet: string
 }) => {
-  const {currentSession} = useSessionActions()
+  const {fileId} = useSessionActions()
   const {heightPreview} = useTableActions()
-  const {mutate, data,status} = useGetColumnMutation()
-  const {getValues} = useFormContext()
+  const {mutate, data,status,isSuccess} = useGetColumnMutation()
 
   useEffect(() => {
-    if (currentSession && currentColumn && Object.keys(getValues()).length) {
-      console.log(111)
+    if (currentColumn) {
       mutate({
         sheet,
-        fileId: currentSession?.file_id!,
+        fileId:fileId!,
         columnId: currentColumn.toString()!
       })
     }
@@ -33,7 +31,7 @@ export const TablePreview = ({currentColumn, sheet}: {
     <Table
       bordered
       height={heightPreview || 200}
-      data={currentSession ? data : []}
+      data={isSuccess ? data : []}
       onRowClick={(rowData) => {
         console.log(rowData);
       }}

@@ -1,7 +1,7 @@
 import {Button, Message, Uploader} from "rsuite";
-import {BASE_URL, CURRENT_FILE_SESSION} from "@/fsd/core/global.constants";
+import {BASE_URL} from "@/fsd/core/global.constants";
 import {TablePaths, useTableActions} from "@/fsd/entities/table";
-import {SessionStatus, useSessionActions} from "@/fsd/entities/session";
+import {SessionStatus, SessionStorage, useSessionActions} from "@/fsd/entities/session";
 import {useState} from "react";
 
 type FileUploaderResponse = {
@@ -9,22 +9,15 @@ type FileUploaderResponse = {
 }
 
 export const FileUploader = () => {
-  const {currentSession, setSession} = useSessionActions()
+  const {setFileId,setSessionStatus,fileId} = useSessionActions()
   const handleSuccess = (response: FileUploaderResponse, file: any) => {
 
-    setSession({
-      ...currentSession,
-      ...response,
-      sessionStatus: SessionStatus.FILE_UPLOADED
-    })
-    sessionStorage.setItem(
-      CURRENT_FILE_SESSION,
-      JSON.stringify({
-        ...currentSession,
-        ...response,
-        sessionStatus: SessionStatus.FILE_UPLOADED,
-      })
-    )
+    setFileId(response.file_id)
+    setSessionStatus(SessionStatus.FILE_UPLOADED)
+
+    sessionStorage.setItem(SessionStorage.FILE_ID, response.file_id);
+    sessionStorage.setItem(SessionStorage.SESSION_STATUS, SessionStatus.FILE_UPLOADED);
+
 
   };
 
@@ -34,7 +27,7 @@ export const FileUploader = () => {
   return (
     <div className={''}>
       <Uploader
-        disabled={!!currentSession?.file_id}
+        disabled={!!fileId}
         draggable
         listType="picture-text"
         defaultFileList={[]}

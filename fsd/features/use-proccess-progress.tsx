@@ -1,28 +1,23 @@
 import {useEffect, useState} from 'react';
 import {getFileInProgressById} from "@/fsd/entities/model/model.actions";
-import {SessionStatus, useSessionActions} from "@/fsd/entities/session";
-import {CURRENT_FILE_SESSION} from "@/fsd/core/global.constants";
+import {SessionStatus, SessionStorage, useSessionActions} from "@/fsd/entities/session";
 
 export const useProcessProgress = () => {
   const [progressData, setProgressData] = useState<any[]>([]);
-  const {currentSession, setSession} = useSessionActions()
+  const {fileId,setSessionStatus,sessionStatus} = useSessionActions()
 
   useEffect(() => {
 
-    if (!currentSession?.file_id) return
+    if (!fileId) return
     const fetchData = async () => {
       try {
-        const response = await getFileInProgressById(currentSession?.file_id!); // Запрос на получение данных
+        const response = await getFileInProgressById(fileId); // Запрос на получение данных
         const data = await response.json();
         setProgressData(data);
         if (data === 100) {
-          const request = {
-            file_id: currentSession?.file_id!,
-            ...currentSession,
-            sessionStatus: SessionStatus.AUTOCODING_COMPLETED,
-          }
-          setSession(request)
-          sessionStorage.setItem(CURRENT_FILE_SESSION, JSON.stringify(request))
+
+          setSessionStatus(SessionStatus.AUTOCODING_COMPLETED)
+          sessionStorage.setItem(SessionStorage.SESSION_STATUS, SessionStatus.AUTOCODING_COMPLETED)
           clearInterval(intervalId)
         }
       } catch (error) {
@@ -33,13 +28,13 @@ export const useProcessProgress = () => {
     fetchData(); // Вызываем сразу при монтировании
 
     const intervalId = setInterval(fetchData, 10000); // Интервальные запросы каждые 10 секунд
-    if (currentSession?.sessionStatus !== SessionStatus.AUTOCODING) {
+    if (sessionStatus !== SessionStatus.AUTOCODING) {
       return clearInterval(intervalId);
     }
     return () => {
       clearInterval(intervalId); // Очищаем интервал при размонтировании
     };
-  }, [currentSession?.file_id, currentSession?.sessionStatus]); // Пустой массив зависимостей, чтобы запросы начинались при монтировании
+  }, [sessionStatus]); // Пустой массив зависимостей, чтобы запросы начинались при монтировании
 
   return progressData; // Возвращаем данные
 };

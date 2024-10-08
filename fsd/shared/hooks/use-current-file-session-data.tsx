@@ -1,18 +1,30 @@
 import {useEffect} from 'react';
-import {CURRENT_FILE_SESSION} from "@/fsd/core/global.constants";
-import {Session, useSessionActions} from "@/fsd/entities/session";
+import {Session, SessionStatus, SessionStorage, useSessionActions} from "@/fsd/entities/session";
 
 export const useCurrentFileSessionData = () => {
-  const {setSession} = useSessionActions()
+  const {setFileId,setSessionStatus,setCheckedSKU,setCheckedBrands,setCostCoding} = useSessionActions()
 
   useEffect(() => {
     // Получаем данные из sessionStorage
-    const sessionData = sessionStorage.getItem(CURRENT_FILE_SESSION);
-
-    if (sessionData) {
-      const parsedData: Session = JSON.parse(sessionData);
-      console.log(parsedData)
-      setSession(parsedData);
+    const sessionDataFileId = sessionStorage.getItem(SessionStorage.FILE_ID);
+    if (sessionDataFileId) {
+      setFileId(sessionDataFileId);
+    }
+    const sessionDataStatus = sessionStorage.getItem(SessionStorage.SESSION_STATUS);
+    if (sessionDataStatus) {
+      setSessionStatus(sessionDataStatus as SessionStatus);
+    }
+    const sessionDataSKU = sessionStorage.getItem(SessionStorage.CHECKED_SKU);
+    if (sessionDataSKU) {
+      setCheckedSKU(+sessionDataSKU);
+    }
+    const sessionDataBrands = sessionStorage.getItem(SessionStorage.CHECHED_BRANDS);
+    if (sessionDataBrands) {
+      setCheckedBrands(+sessionDataBrands);
+    }
+    const sessionDataCost = sessionStorage.getItem(SessionStorage.COST_AUTOCODING);
+    if (sessionDataCost) {
+      setCostCoding(+sessionDataCost);
     }
   }, []); // Хук вызывается при маунте компонента
 
