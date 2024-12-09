@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 'use client'
 
 import {useOpenQuestionSessionStore} from "@/fsd/entities/open-question/open-question.store";

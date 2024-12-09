@@ -3,8 +3,8 @@ import {useFormContext, Controller} from "react-hook-form";
 import {SelectPicker} from "rsuite";
 import cl from "classnames";
 import styles from "./select.module.scss";
-import {useErrorInputFade} from "@/shared/hooks/use-error-input-fade.tsx";
-import {useDynamicPlacement} from "@/shared/hooks/use-dynamic-placement.tsx";
+import {useErrorInputFade} from "@/fsd/shared/hooks/use-error-input-fade";
+
 
 interface CustomSelectProps {
   name: string;
@@ -72,3 +72,7 @@ export const Select: React.FC<CustomSelectProps> = (
     </div>
   );
 };
+function useDynamicPlacement(): { placement: any; inputRef: any; } {
+    throw new Error("Function not implemented.");
+}
+

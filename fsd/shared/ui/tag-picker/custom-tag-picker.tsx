@@ -3,7 +3,8 @@ import {Controller, useFormContext, ControllerRenderProps} from "react-hook-form
 import {TagPicker, TagPickerProps} from "rsuite";
 import cl from "classnames";
 import styles from "./tag-picker.module.scss";
-import {useErrorInputFade} from "@/shared/hooks/use-error-input-fade.tsx";
+import {useErrorInputFade} from "@/fsd/shared/hooks/use-error-input-fade";
+
 
 interface CustomTagPickerProps {
   name: string;
