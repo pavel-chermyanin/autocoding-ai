@@ -40,13 +40,19 @@ export const FileUploaderOpenQuestion = () => {
     formData.append("file", file);
 
     try {
-      const res = await openQuestionClient.post<FileUploaderResponse>(
-        `${OPEN_QUESTION_BASE_URL}${OpenQuestionPaths.FILE_UPLOAD}`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const res = await fetch(`/proxy${OpenQuestionPaths.FILE_UPLOAD}`,{
+        method: "POST",
+        // headers: { "Content-Type": "multipart/form-data" }
+        body:formData
+      })
+      // console.log(res)
+      // const res = await openQuestionClient.post<FileUploaderResponse>(
+      //   `${OPEN_QUESTION_BASE_URL}${OpenQuestionPaths.FILE_UPLOAD}`,
+      //   formData,
+      //   { headers: { "Content-Type": "multipart/form-data" } }
+      // );
 
-      handleSuccess(res.data, file);
+      // handleSuccess(res.data, file);
     } catch (error) {
       console.error("Ошибка при загрузке файла:", error);
     }

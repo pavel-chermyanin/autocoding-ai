@@ -10,7 +10,7 @@ const createAxiosOpenQuestionInstance = () => {
     },
   });
 
-  console.log(1111)
+  // console.log(1111)
   instance.interceptors.response.use(
     (response) => response,
     (error) => {
