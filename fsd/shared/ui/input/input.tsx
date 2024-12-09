@@ -1,39 +1,43 @@
 import cl from "classnames";
 import React from "react";
 import {useFormContext, Controller} from "react-hook-form";
-import {Input, InputGroup} from "rsuite";
+import {Input as InputRsuite, InputGroup} from "rsuite";
+import styles from "./input.module.scss";
+import {useErrorInputFade} from "@/fsd/shared/hooks/use-error-input-fade";
 
-import styles from "./custom-input.module.scss";
-
-// Интерфейс для пропсов InputRhf
 type CustomInputProps = {
   name: string;
-  type?: string; // Новый пропс для передачи типа инпута
+  type?: string;
   placeholder?: string;
   className?: string;
   after?: () => React.ReactNode;
   as?: React.ElementType;
+  min?: number
+  max?: number
+  size?: 'lg' | 'md' | 'sm' | 'xs'
+  disabled?:boolean
 };
 
-export const CustomInput: React.FC<CustomInputProps> = (
+export const Input: React.FC<CustomInputProps> = (
   {
+
+    as = 'input',
     name,
     type = "text",
     placeholder,
     className,
     after,
-    as = 'text'
+    min = 0,
+    max = 10,
+    size,
+    disabled = false
   }
 ) => {
-  // Используем контекст формы для доступа к управлению и ошибкам
-  const {
-    control,
-    formState: {errors},
-  } = useFormContext();
+  const {control} = useFormContext();
 
-  // Приведение ошибки к строке
-  const errorMessage = typeof errors[name]?.message === "string" ? errors[name]?.message : '';
+  const {isFadingOut, errorMessage} = useErrorInputFade(name); // Используйте хук
 
+  // console.log(errorMessage)
   return (
     <div className={cl(styles.inputWrapper, className)}>
       <Controller
@@ -41,10 +45,14 @@ export const CustomInput: React.FC<CustomInputProps> = (
         control={control}
         render={({field}) => (
           <InputGroup className={cl(styles.inputGroup)}>
-            <Input
+            <InputRsuite
+              disabled={disabled}
+              size={size}
+              min={min}
+              max={max}
               as={as}
               {...field}
-              type={type} // Передаем тип инпута
+              type={type}
               placeholder={placeholder}
               className={cl(styles.input)}
               onChange={(value) => field.onChange(value)}
@@ -53,10 +61,12 @@ export const CustomInput: React.FC<CustomInputProps> = (
           </InputGroup>
         )}
       />
-      {/* Отображаем ошибку, если она есть */}
       <div className={cl(styles.inputError, {
-        [styles.hasError]: !!errorMessage
-      })}>{errorMessage}</div>
+        [styles.hasError]: !!errorMessage,
+        [styles.fadeOut]: isFadingOut,
+      })}>
+        {errorMessage}
+      </div>
     </div>
   );
 };

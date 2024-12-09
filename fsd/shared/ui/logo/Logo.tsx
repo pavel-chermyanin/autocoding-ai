@@ -1,8 +1,7 @@
-import Image from "next/image";
-import logo from "./logo-white.png";
+import logo from "./romir_logo_white_all.svg";
 
 export const Logo = () => {
   return (
-    <Image src={logo} alt={'Логотип'} width={70} height={30}/>
+    <img className={'object-contain'} src={logo} alt={'Логотип'} width={70} height={30}/>
   )
 }

@@ -32,6 +32,9 @@ export const Sidebar = () => {
             <Nav.Item eventKey={Routing.HOME} icon={<DashboardIcon />}>
               Бренды
             </Nav.Item>
+            <Nav.Item eventKey={Routing.OPEN_QUESTION} icon={<DashboardIcon />}>
+              Открытые вопросы
+            </Nav.Item>
             <Nav.Item eventKey={Routing.PROCESSES} icon={<GroupIcon />}>
               Процессы
             </Nav.Item>

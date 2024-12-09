@@ -3,4 +3,7 @@
 .sidenav{
   position: sticky;
   top: 20px;
+  a{
+    white-space: nowrap !important;
+  }
 }
