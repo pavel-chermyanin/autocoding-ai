@@ -15,6 +15,7 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Input} from "@/fsd/shared/ui/input/input";
 import {OpenQuestionSessionStatus, OpenQuestionSessionStorage} from "@/fsd/entities/open-question/open-question.types";
+import {openQuestionClient} from "@/fsd/shared/config/openQuestionClient";
 
 export const loginSchema = yup.object().shape({
   // system_prompt: yup.string().required("Промпт обязателен"),
@@ -38,35 +39,44 @@ export const PreviewForm = () => {
   const selectData = preview?.headers.slice(1).map((item, index) => ({label: item, value: index})) ?? []
 
   const calculatePrice = async (data: any) => {
-    const res = await fetch(`${OPEN_QUESTION_BASE_URL}${OpenQuestionPaths.GET_PRICE}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({session_id: openQuestionFileId, list_name: preview?.sheets?.[+data.sheet]})
-    })
-    const price = await res.json()
-    setPrice(price)
+    const res = await openQuestionClient.post(`${OPEN_QUESTION_BASE_URL}${OpenQuestionPaths.GET_PRICE}`,{session_id: openQuestionFileId, list_name: preview?.sheets?.[+data.sheet]})
+    // const res = await fetch(`${OPEN_QUESTION_BASE_URL}${OpenQuestionPaths.GET_PRICE}`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({session_id: openQuestionFileId, list_name: preview?.sheets?.[+data.sheet]})
+    // })
+    // const price = await res.json()
+    // console.log(res)
+    setPrice(res.data)
   }
   const submitAutocoding = async (data: any) => {
     const keys = preview?.codes && Object.keys(preview?.codes)
-    console.log(data, preview?.sheets?.[+data.sheet], keys?.[+data.codes_sheet])
-    const res = await fetch(`${OPEN_QUESTION_BASE_URL}${OpenQuestionPaths.POST_CODING_JOB}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    // console.log(data, preview?.sheets?.[+data.sheet], keys?.[+data.codes_sheet])
+    const res = await openQuestionClient.post(`${OPEN_QUESTION_BASE_URL}${OpenQuestionPaths.POST_CODING_JOB}`,
+      {
         session_id: openQuestionFileId,
         sheet: preview?.sheets?.[+data.sheet],
         codes_sheet: keys?.[+data.codes_sheet]
       })
-    })
 
-    const response = await res.json()
+    // const res = await fetch(`${OPEN_QUESTION_BASE_URL}${OpenQuestionPaths.POST_CODING_JOB}`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     session_id: openQuestionFileId,
+    //     sheet: preview?.sheets?.[+data.sheet],
+    //     codes_sheet: keys?.[+data.codes_sheet]
+    //   })
+    // })
+
+    // const response = await res.json()
     setOpenQuestionSessionStatus(OpenQuestionSessionStatus.AUTOCODING)
     sessionStorage.setItem(OpenQuestionSessionStorage.SESSION_STATUS, OpenQuestionSessionStatus.AUTOCODING);
-    console.log(response)
+    // console.log(response)
   }
   // const keys = preview?.codes && Object.keys(preview?.codes)
   // const values = preview?.codes && Object.values(preview?.codes)
@@ -156,10 +166,11 @@ export const PreviewForm = () => {
       {!!price && (
         <div className={'grid gap-5'}>
           <Message className={'mt-4'}>
-            <strong>Цена!</strong> {price}
+            <strong>Цена!</strong> {price ? price : ''}
           </Message>
           {/*<Input name={'system_prompt'} as={'textarea'} placeholder={'Введите промпт'}/>*/}
           <Button
+            disabled={true}
             // disabled={openQuestionSessionStatus === OpenQuestionSessionStatus.AUTOCODING}
             className={'mt-4'}
                   onClick={methods.handleSubmit(submitAutocoding)}>Запустить кодировку</Button>

@@ -31,11 +31,13 @@ export async function GET(req) {
 
 export async function POST(req) {
   const url = new URL(req.url);
+  // console.log(url)
   const targetUrl = `${OPEN_QUESTION_BASE_URL}${url.pathname.replace(
     "/api/open-question-proxy",
     ""
   )}`;
 
+  // console.log(111)
   try {
     const body = await req.json(); // Читаем тело запроса
     const response = await fetch(targetUrl, {
